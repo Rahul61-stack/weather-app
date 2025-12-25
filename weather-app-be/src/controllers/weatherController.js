@@ -8,7 +8,6 @@ export const getWeather = async (req, res, next) => {
       dateFrom,
       dateTo
     );
-    //THIS IS WHAT WILL BE RETURNED
     res.json(resp);
   } catch (err) {
     next(err);
