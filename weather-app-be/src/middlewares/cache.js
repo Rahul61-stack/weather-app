@@ -1,7 +1,12 @@
 import client from "../config/redisClient.js";
 
 export const cache = async (req, res, next) => {
-  let key = `${req.originalUrl}_${req.body.location}`;
+  console.log(req.body);
+  let { location, range } = req.body;
+  let key = location;
+  if (range) {
+    key = `${location}:${range.from}:${range.to}`;
+  }
   try {
     const cachedData = await client.get(key);
     if (cachedData) {

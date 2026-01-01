@@ -6,7 +6,12 @@ import weatherRoutes from "./routes/weatherRoutes.js";
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // // Routes

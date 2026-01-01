@@ -2,11 +2,12 @@ import * as weatherService from "../services/weatherServices.js";
 
 export const getWeather = async (req, res, next) => {
   try {
-    const { location, dateFrom, dateTo } = req.body;
+    console.log(req.body, "REHUL");
+    const { location, range } = req.body;
     const resp = await weatherService.getCurrentWeather(
       location,
-      dateFrom,
-      dateTo
+      range ? range.from : undefined,
+      range ? range.to : undefined
     );
     res.json(resp);
   } catch (err) {

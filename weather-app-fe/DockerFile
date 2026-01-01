@@ -1,0 +1,23 @@
+# Use Node.js version 20 with Alpine Linux (lightweight base image)
+FROM node:20-alpine
+
+# Set the working directory inside the container to /app
+WORKDIR /app
+
+# Copy package.json and package-lock.json (if exists) to the working directory
+COPY package*.json ./
+
+# Clean install dependencies
+RUN rm -rf node_modules package-lock.json && npm install
+
+# Copy the entire application source code
+COPY . .
+
+# Build the Next.js application (creates optimized production build)
+RUN npm run build
+
+# Expose port 3000 (Next.js default port)
+EXPOSE 3000
+
+# Start the Next.js production server
+CMD ["npm", "run", "start"]

@@ -1,0 +1,21 @@
+# Use official Node.js LTS version (Alpine for smaller 
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+# Use --only=production for production builds, omit for development
+RUN npm install
+
+# Copy application source code
+COPY . .
+
+# Expose the port your Express app runs on
+EXPOSE 8000
+
+# Start the application
+CMD ["npm","run","start"]

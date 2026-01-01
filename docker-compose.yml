@@ -1,0 +1,38 @@
+services:
+  # Frontend Service (Next.js)
+  frontend:
+    build:
+      context: ./weather-app-fe
+      dockerfile: DockerFile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # Add your backend API URL
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - weather-network
+
+  # Backend Service (Express)
+  backend:
+    build:
+      context: ./weather-app-be
+      dockerfile: DockerFile
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - WEATHER_API_KEY=T8DV2QXSBTZNE2WWK4NQYAFG5
+      - WEATHER_API_URL=https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline
+      - REDIS_HOST=host.docker.internal
+      - REDIS_PORT=6379
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge
